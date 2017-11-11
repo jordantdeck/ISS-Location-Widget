@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+
+
+<head>
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+<title>
+Current position of the ISS
+
+</title>
+
+<meta name="language" content="en" />
+<meta name="copyright" content="Dirk Matussek" />
+<meta name="DC.Language" content="en" />
+<meta name="DC.Rights" content="&copy; Copyright 2008-2014 by Dirk Matussek" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta name="Description" content="The current position of the ISS and its ground track." />
+<meta name="KeyWords" content="position,ISS,International Space Station,current position,ground track,ISS tracker" />
+<meta name="DC.Title" content="Current position of the ISS" />
+<meta name="DC.Description" content="The current position of the ISS and its ground track." />
+<meta name="DC.Date" content="2017-04-20" />
+
+
+<link href="css/iss.css" rel="stylesheet" type="text/css" />
+<!--[if lte IE 7]>
+<link href="css/patches/patch_iss.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+
+<style type="text/css">
+<!--
+#cockpit p               { padding:3px; margin:0; }
+#cockpit p.cockpitHeader { padding-bottom:0; font-weight:bold; }
+#cockpit p.cockpitData   { padding-top:0; padding-left:18px; }
+#cockpit .milesSelector  { padding-right: 20px; }
+-->
+</style>
+<script type="text/javascript">
+//<![CDATA[
+  var dict = {
+	decimalPoint: ".",
+	south: "South",
+	east: "East",
+	north: "North",
+	west: "West",
+	snapshotURL: "http://iss.astroviewer.net/basicmap.php",
+    worldMapImage: "images/world_06_en.png"
+  };
+//]]>
+</script>
+<script type='text/javascript' language='javascript' src='http://astroviewer-sat2a.appspot.com/orbit?var=orbit'></script>
+<!--<script type="text/javascript" language="javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCGL620_D6WVvGEDMtltDTGzRPujz8ZRZQ&sensor=false&language=en"></script>-->
+<script type="text/javascript" language="javascript" src="javascript/orbit.js"></script>
+
+
+</head>
+
+
+<body onload="initialize();">
+  <div class="page_margins">
+    <div id="header">
+      <div id="topnav">
+<a href="contact.php" title="Imprint and feedback form">Contact</a> | <a href="http://iss.de.astroviewer.net/">Deutsch</a>
+
+      </div>
+      <img class="float_left" src="images/av-iss-logo.png" width="118" height="68" alt="AstroViewer ISS" />
+      <img class="float_right" src="images/iss-schematic2a.png" width="129" height="77" title="International Space Station" alt="International Space Station" />
+      <h1>
+Current position of the ISS
+
+      </h1>
+      <h2>
+Where is the International Space Station right now?
+
+      </h2>
+    </div>
+    <div id="nav">
+      <div class="hlist">
+        <!-- main navigation: horizontal list -->
+        <ul>
+<li class="active"><strong>Home</strong></li>
+<li><a href="observation.php" title="visible passes at your location">Observation</a></li>
+<li><a href="faq.php" title="frequently asked questions and answers">FAQ</a></li>
+<li><a href="links.php">Links</a></li>
+
+        </ul>
+      </div>
+    </div>
+    <div id="main">
+<noscript>
+  <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+    Your web browser needs to have JavaScript enabled in order for this application to display correctly.
+  </div>
+</noscript>
+<h2>What the astronauts see right now</h2>
+<!--<div id="map_canvas1" style="width:100%; height:400px; margin:0px; border:1px solid #cccccc; font: 10pt sans-serif,Arial,Helvetica;"></div>-->
+<canvas id="map_canvas1" width="734" height="400" style="margin:0px; border:1px solid #cccccc;"></canvas>
+<p>This is the view from the ISS directly down to earth. The crosshair indicates the current ground point. The map is updated every second.<br />
+Please note that the map is not real-time video. However, the position itself is real-time.</p>
+<p><input type="button" value="Snapshot" onclick="snapshot()" />
+<br />Click the button &quot;Snapshot&quot; to open an extra map of the current ground area in a new window.</p>
+<h2>Ground track</h2>
+<div style="width:100%">
+  <div id="cockpit" style="width:127px; height:235px; border:1px solid #cccccc; background:#eeeeee; float:right; font-size:90%">
+    <p class="cockpitHeader">Ground point</p>
+    <p class="cockpitData" id="gpt">&nbsp;<br />&nbsp;</p>
+    <p class="cockpitHeader">Time</p>
+    <p class="cockpitData" id="time">&nbsp;</p>
+    <p class="cockpitHeader">Orbital speed</p>
+    <p class="cockpitData" id="speed">&nbsp;<br />&nbsp;</p>
+    <p class="cockpitHeader">Altitude</p>
+    <p class="cockpitData" id="alt">&nbsp;</p>
+    <p>
+      <span class="milesSelector"><input type="radio" name="mi-km" onclick="handleMiles(true)" id="milesSelector" /> miles</span>
+      <span                      ><input type="radio" name="mi-km" onclick="handleMiles(false)" /> km</span>
+    </p>
+  </div>
+  <canvas id="map_canvas2" width="600" height="235" style="margin:0px; padding:0px; border:1px solid #cccccc;"></canvas>
+</div>
+<p style="clear:both">This map shows the ground track of the International Space Station&acute;s next orbit. The crosshair marks its current position.</p>
+<p>The blue sections of the ISS' track indicate when the space station is in the earth's shadow. The red sections mark when the ISS is sunlit.</p>
+
+    </div>
+    <div id="footer">
+      updated:
+November 08, 2017
+      <br />
+      URL: <a href="http://iss.astroviewer.net/">iss.astroviewer.net</a>
+      |
+      &copy; 2008-2014 by <a href="http://www.matussek.com/" target="_blank" title="Homepage Dirk Matussek">Dirk Matussek</a>
+      <br />
+      Orbital data provided by <a href="http://www.nasa.gov/" target="_blank">NASA</a>
+      |
+      Layout based on <a href="http://www.yaml.de/" target="_blank">YAML</a>
+      <br />
+      <!--
+      <a href="http://www.astroviewer.com/" target="_blank" title="AstroViewer homepage: Your night sky map in the internet">AstroViewer</a><sup>&reg;</sup> is a registered <a href="http://www.astroviewer.com/images/certificate002.jpg" target="_blank">trademark</a>
+      <br />
+      -->
+      <a href="contact.php">Imprint</a>
+    </div>
+  </div>
+</body>
+
+
+</html>
+
+
